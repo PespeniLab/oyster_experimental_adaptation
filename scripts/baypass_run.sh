@@ -8,9 +8,9 @@ echo "40 40 40 40 30 32" > ~/oyster/analysis/baypass.psize.in
 echo "40 40 30" > ~/oyster/analysis/baypass.33.psize.in
 
 # and make a covariate file. specified by -efile
-echo "1 0 0" > ~/oyster/analysis/baypass.33.covariate.in
+echo "1 -1 -1" > ~/oyster/analysis/baypass.33.covariate.in
 
-echo "0 1 0 1 0 1" > ~/oyster/analysis/baypass.covariate.in
+echo "-1 1 -1 1 -1 1" > ~/oyster/analysis/baypass.covariate.in
 
 
 cd ~/oyster/analysis/baypass
@@ -19,7 +19,7 @@ cd ~/oyster/analysis/baypass
 ~/bin/baypass_2.1/sources/g_baypass -npop 3 -gfile ~/oyster/analysis/baypass.33.geno.in \
     -poolsizefile ~/oyster/analysis/baypass.33.psize.in  \
     -outprefix 33_core \
-    -scalecov \
+    #-scalecov \
     -nthreads 4 2>&1 | tee ~/oyster/log_out/baypass.stdout_$(date +"%F_%R").txt
 
 # 33 only, aux to identify salinity associations
@@ -29,7 +29,7 @@ cd ~/oyster/analysis/baypass
     -efile ~/oyster/analysis/baypass.33.covariate.in \
     -outprefix 33_aux \
     -omegafile 33_core_mat_omega.out \
-    -scalecov \
+    #-scalecov \
     -auxmodel \
     -nthreads 4 2>&1 | tee ~/oyster/log_out/baypass_aux.stdout_$(date +"%F_%R").txt
 
