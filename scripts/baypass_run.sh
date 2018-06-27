@@ -12,15 +12,13 @@ echo "1 -1 -1" > ~/oyster/analysis/baypass.33.covariate.in
 
 echo "-1 1 -1 1 -1 1" > ~/oyster/analysis/baypass.covariate.in
 
-
 cd ~/oyster/analysis/baypass
 
 # 33 only, core
 ~/bin/baypass_2.1/sources/g_baypass -npop 3 -gfile ~/oyster/analysis/baypass.33.geno.in \
     -poolsizefile ~/oyster/analysis/baypass.33.psize.in  \
     -outprefix 33_core \
-    #-scalecov \
-    -nthreads 4 2>&1 | tee ~/oyster/log_out/baypass.stdout_$(date +"%F_%R").txt
+    -nthreads 4 2>&1 | tee ~/oyster/log_out/baypass_33.stdout_$(date +"%F_%R").txt
 
 # 33 only, aux to identify salinity associations
 
@@ -29,15 +27,13 @@ cd ~/oyster/analysis/baypass
     -efile ~/oyster/analysis/baypass.33.covariate.in \
     -outprefix 33_aux \
     -omegafile 33_core_mat_omega.out \
-    #-scalecov \
     -auxmodel \
-    -nthreads 4 2>&1 | tee ~/oyster/log_out/baypass_aux.stdout_$(date +"%F_%R").txt
+    -nthreads 4 2>&1 | tee ~/oyster/log_out/baypass_33_aux.stdout_$(date +"%F_%R").txt
 
 # run all pops:
 
 ~/bin/baypass_2.1/sources/g_baypass -npop 6 -gfile ~/oyster/analysis/baypass.geno.in \
     -poolsizefile ~/oyster/analysis/baypass.psize.in  \
-    -scalecov \
     -outprefix all_core \
     -nthreads 4 2>&1 | tee ~/oyster/log_out/baypass_all.stdout_$(date +"%F_%R").txt
 
@@ -46,7 +42,6 @@ cd ~/oyster/analysis/baypass
 ~/bin/baypass_2.1/sources/g_baypass -npop 6 -gfile ~/oyster/analysis/baypass.geno.in \
     -poolsizefile ~/oyster/analysis/baypass.psize.in  \
     -efile ~/oyster/analysis/baypass.covariate.in \
-    -scalecov \
     -outprefix all_aux \
     -omegafile all_core_mat_omega.out \
     -auxmodel \

@@ -1,4 +1,3 @@
-
 import re
 
 a_base=['A','a']
@@ -26,7 +25,7 @@ with open('/users/r/b/rbrennan/oyster/data/oyster.filter.mpileup', "r") as maste
             # calc maf > 0.01
         bi_allele = sum([a_count > 0, c_count > 0, t_count > 0, g_count > 0])
         # removing indels with the regular expression below
-        if (a_count > 1 or c_count > 1 or t_count > 1 or g_count > 1) and bool(re.search(r"[+-](\d+)", tmp)) is False and bi_allele == 1:
+        if (a_count > 1 or c_count > 1 or t_count > 1 or g_count > 1) and bi_allele == 1:
             myfile.write(line)
             good_snp = good_snp + 1
             if good_snp % 10000 == 0: print "number of good snps:", good_snp
