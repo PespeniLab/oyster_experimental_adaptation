@@ -3,7 +3,7 @@ import numpy as np
 snp_path = '/users/r/b/rbrennan/oyster/analysis/oyster.snp_rc'
 
 #make empty array to save output
-snp_out = np.empty(shape=(76633,12), dtype = object)# row, col
+snp_out = np.empty(shape=(73002,12), dtype = object)# row, col
 
 with open(snp_path) as master_file:
     header_line = next(master_file) # skip header row

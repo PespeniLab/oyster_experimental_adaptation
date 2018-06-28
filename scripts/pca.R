@@ -63,8 +63,8 @@ plot(y=x$scores[,1], x=x$scores[,2],
 axis(1, mgp=c(2, .4, 0), cex.axis=0.6) # second is tick mark labels
 axis(2, mgp=c(2, .4, 0), cex.axis=0.6)
 
-title(xlab="PC1: 31.7%", line=2, cex.lab=0.8)
-title(ylab="PC2: 25.8%", line=2, cex.lab=0.8)
+title(xlab="PC1: 33.0%", line=2, cex.lab=0.8)
+title(ylab="PC2: 26.5%", line=2, cex.lab=0.8)
 
 legend("topleft", pch=c(21,21, 23,23,22,22),
     pt.bg=c("firebrick3", NA,"royalblue3", NA,"springgreen4", NA),
