@@ -19,11 +19,10 @@ do
     echo $sample
     echo $samp
     echo $lib
-    rg=$(echo \@RG\\tID:$samp\\tPL:Illumina\\tPU:x\\tLB:$lib\\tSM:$samp)
+    rg=$(echo \@RG\\tID:$lib\\tPL:Illumina\\tPU:x\\tLB:$lib\\tSM:$lib)
     #echo $rg
 
     $my_bwa mem -t 6 -R $rg $bwagenind ${sample}.nhc.cl.fq.gz | \
-    $my_samblstr -M | \
     $my_samtools view -h -u - | \
     $my_samtools sort - -O bam -o /data/oyster/aligned/$lib.bam
 done

@@ -1,7 +1,7 @@
 
 #count up reads:
 
-cd /data/oyster/aligned
+cd /data/oyster/aligned/STAR
 
 for i in $(ls *.bam | cut -f -1 -d "." | uniq )
 
@@ -11,19 +11,17 @@ TWO=$(samtools view -F 4 -q 20 ${i}.bam | wc -l) #mapped reads with quality of 2
 THREE=$(samtools view -f 1024 ${i}.bam | wc -l) #pcr duplicates
 FOUR=$(samtools view  ${i}.bam | wc -l) #total
 echo ${i},$ONE,$TWO,$THREE,$FOUR
- } >> ~/oyster/count.aligned_qual.txt
+ } >> ~/oyster/count.aligned_star.txt
 
 done
 
 
 #need to downsample to the lowest number of mapped reads in a group.
 
-cd /data/oyster/aligned
-
 
 for i in LL_33 LL_5 OP_33 OP_5 TB_33 TB_5; do
 
-    cat ~/oyster/count.aligned_qual.txt | grep $i > tmp.ct
+    cat ~/oyster/count.aligned_star.txt | grep $i > tmp.ct
 
     low=$(sort -t, -nk2 tmp.ct | cut -f 3 -d ',' | head -n 1)
     low1=$(sort -t, -nk2 tmp.ct)
@@ -36,7 +34,7 @@ for i in LL_33 LL_5 OP_33 OP_5 TB_33 TB_5; do
         prop1=$(echo "scale=5 ; $low / $spct"|bc)
         echo $samp
         echo $prop1
-        if (( prop1 < 1)); then
+        if (( $(echo "$prop1 < 1" | bc -l) )); then
             echo "SUBSAMPLE ${i}${samp}"
             samtools view -hb -F 4 -q 20 ${i}${samp}.bam | \
             /data/programs/sambamba_v0.6.0 view -f bam -t 4 --subsampling-seed=3 -s ${prop1} /dev/stdin | samtools sort > /data/oyster/subsample/${i}${samp}.subsample.bam
@@ -53,7 +51,7 @@ done
 
 for i in TB_33 ; do
 
-    cat ~/oyster/count.aligned_qual.txt | grep $i | grep -v 'TB_33_4' > tmp.ct
+    cat ~/oyster/analysis/count.aligned.txt | grep $i | grep -v 'TB_33_4' > tmp.ct
 
     low=$(sort -t, -nk2 tmp.ct | cut -f 3 -d ',' | head -n 1)
     low1=$(sort -t, -nk2 tmp.ct)
@@ -64,9 +62,9 @@ for i in TB_33 ; do
         id=$(echo ${i}${samp})
         spct=$(cat tmp.ct | grep ${id} | cut -f 3 -d ',')
         prop1=$(echo "scale=5 ; $low / $spct"|bc)
-        echo $samp
+        echo $id
         echo $prop1
-        if (( prop1 < 1)); then
+        if (( $(echo "$prop1 < 1" | bc -l) )); then
             echo "SUBSAMPLE ${i}${samp}"
             samtools view -hb -F 4 -q 20 ${i}${samp}.bam | \
             /data/programs/sambamba_v0.6.0 view -f bam -t 4 --subsampling-seed=3 -s ${prop1} /dev/stdin | samtools sort > /data/oyster/subsample/${i}${samp}.subsample.bam
@@ -79,7 +77,8 @@ for i in TB_33 ; do
 
 done
 
-rm ~/oyster/count.subsample.txt
+
+#rm ~/oyster/count.subsample.txt
 
 cd /data/oyster/subsample
 
@@ -88,7 +87,7 @@ for i in $(ls *.bam | cut -f -1 -d "." | uniq )
 do {
 ONE=$(samtools view  ${i}.subsample.bam | wc -l) #total
 echo ${i},$ONE
- } >> ~/oyster/count.subsample.txt
+ } >> ~/oyster/count.subsample_star.txt
 
 done
 
@@ -108,4 +107,3 @@ for i in $(ls *.bam | cut -f 1-2 -d "_" | uniq ); do {
 }
 
 done
-

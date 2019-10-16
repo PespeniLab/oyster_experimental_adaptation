@@ -14,8 +14,3 @@ done
 # -A will include any dups.
 samtools mpileup -E -Q 20 --skip-indels -d 2000 -f /data/oyster/transcriptome/oyster_assembly.fa -o oyster.mpileup LL_33.unmarked.bam LL_5.unmarked.bam OP_33.unmarked.bam  OP_5.unmarked.bam  TB_33.unmarked.bam  TB_5.unmarked.bam
 
-# filter pileup
-# include sites with > 30x, less than 350x
-# also remove ^ and $ start and ends of reads. remove them. ^ has qual score follwoing too
-
-awk '{ if ($4 >= 30 && $4 <= 350 && $7 >= 30 && $7 <= 350 && $10 >= 30 && $10 <= 350 && $13 >= 30 && $13 <= 350 && $16 >= 30 && $16 <= 350 && $19 >= 30 && $19 <= 350 ) print $0 }'  oyster.mpileup | sed 's/\^.//g' | sed 's/\$//g'> oyster.filter.mpileup
