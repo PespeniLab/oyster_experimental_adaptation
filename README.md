@@ -1,4 +1,4 @@
-#Rapid adaptation to experimental salinity
+# Rapid adaptation to experimental salinity
 
 This repository hold scripts to run all analyses for experimental responses to salinity selection in the oyster Ostrea lurida.
 
@@ -41,9 +41,7 @@ Below are all scripts necessary to run the full analysis for the manuscript. A s
 - make GO annotations: `go_annotations.py`  
 - convert to topgo format: `to_topgo.R`  
 - Run topgo: `TopGO.R`  
-
-- dadi analysis: 
-    - in directory: dadi, see `run_dadi.md` for details.  
+- dadi analysis: in directory: dadi, see `run_dadi.md` for details.  
 
 ### Figures
 
